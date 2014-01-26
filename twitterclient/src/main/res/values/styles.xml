@@ -1,0 +1,27 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <!-- Set default appearances. -->
+        <item name="android:textColorPrimary">#404040</item>
+        <item name="android:textColorSecondary">#777777</item>
+
+    </style>
+
+    <style name="Name" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ScreenName" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Tweet" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+</resources>
