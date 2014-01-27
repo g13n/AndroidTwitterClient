@@ -8,7 +8,7 @@
     
     <string name="activity_login">Log in to Twitter</string>
     <string name="login_label">Log in</string>
-    
+
     <string name="activity_compose">Compose a new Tweet</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_compose">Tweet</string>
@@ -21,8 +21,5 @@
 
     <!-- Twitter timeline format -->
     <string name="screen_name_format">\@%s</string>
-    <string name="title_activity_compose">ComposeActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
 
 </resources>

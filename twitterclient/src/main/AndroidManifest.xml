@@ -38,7 +38,7 @@
         </activity>
         <activity
             android:name="me.g13n.twitterclient.ComposeActivity"
-            android:label="@string/title_activity_compose" >
+            android:label="@string/activity_compose" >
         </activity>
     </application>
 
