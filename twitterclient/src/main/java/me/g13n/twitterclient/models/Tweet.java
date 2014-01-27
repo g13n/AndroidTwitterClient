@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Tweet extends OurJSONObject {
 
@@ -64,6 +65,10 @@ public class Tweet extends OurJSONObject {
 
     public User getUser() {
         return user;
+    }
+
+    public Date getTime() {
+        return new Date(getString("created_at"));
     }
 
 

@@ -29,16 +29,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/tvId"
                 style="@style/Name"
                 android:id="@+id/tvName"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/tvName"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/tvTime"
                 style="@style/ScreenName"
                 android:id="@+id/tvId"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                style="@style/Time"
+                android:id="@+id/tvTime"/>
 
         </RelativeLayout>
 
