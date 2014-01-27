@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="error_empty_status">Status cannot be empty</string>
+    <string name="error_compose">Twitter returned failure. Try again later</string>
+
+</resources>

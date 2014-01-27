@@ -2,12 +2,17 @@
 <resources>
 
     <string name="app_name">Twitter App Client</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="login_label">Log in</string>
 
     <!-- Activities -->
     <string name="activity_main">Twitter App Client</string>
+    
     <string name="activity_login">Log in to Twitter</string>
+    <string name="login_label">Log in</string>
+    
+    <string name="activity_compose">Compose a new Tweet</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_compose">Tweet</string>
+    <string name="profile_desc">Profile Image</string>
 
     <!-- Action bar icons -->
     <string name="action_login">Log in</string>
@@ -16,5 +21,8 @@
 
     <!-- Twitter timeline format -->
     <string name="screen_name_format">\@%s</string>
+    <string name="title_activity_compose">ComposeActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

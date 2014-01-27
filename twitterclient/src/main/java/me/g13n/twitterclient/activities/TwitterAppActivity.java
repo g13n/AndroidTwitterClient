@@ -16,11 +16,12 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+import me.g13n.twitterclient.ComposeActivity;
 import me.g13n.twitterclient.R;
 import me.g13n.twitterclient.helpers.TweetsAdapter;
+import me.g13n.twitterclient.helpers.TwitterClient;
 import me.g13n.twitterclient.helpers.TwitterClientApp;
 import me.g13n.twitterclient.models.Tweet;
-import me.g13n.twitterclient.helpers.TwitterClient;
 
 public class TwitterAppActivity extends Activity {
 
@@ -81,6 +82,21 @@ public class TwitterAppActivity extends Activity {
     }
 
 
+    public void onCompose(MenuItem menuItem) {
+        Intent composeIntent = new Intent(this, ComposeActivity.class);
+        startActivityForResult(composeIntent, COMPOSE_ACTIVITY);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == COMPOSE_ACTIVITY && resultCode == RESULT_OK) {
+            displayTimeline();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
     public boolean isLoggedIn() {
         return isLoggedIn;
     }
@@ -104,7 +120,8 @@ public class TwitterAppActivity extends Activity {
     }
 
 
-    private final int LOGIN_REQUEST = 9;
+    private final int COMPOSE_ACTIVITY = 2;
+    private final int LOGIN_ACTIVITY = 1;
 
 
     private Menu menu;

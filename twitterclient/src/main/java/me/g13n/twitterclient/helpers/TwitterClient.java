@@ -3,7 +3,8 @@ package me.g13n.twitterclient.helpers;
 import android.content.Context;
 
 import com.codepath.oauth.OAuthBaseClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.scribe.builder.api.TwitterApi;
 
@@ -32,18 +33,26 @@ public class TwitterClient extends OAuthBaseClient {
     }
 
 
-    public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+    /**
+     * Return home timeline for the logged in user.
+     *
+     * @param handler a JsonHttpResponseHandler to handle response
+     */
+    public void getHomeTimeline(JsonHttpResponseHandler handler) {
         String endpoint = getApiUrl("statuses/home_timeline.json");
         client.get(endpoint, handler);
     }
 
-    /* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
-     * 	  i.e getApiUrl("statuses/home_timeline.json");
-     * 2. Define the parameters to pass to the request (query or body)
-     *    i.e RequestParams params = new RequestParams("foo", "bar");
-     * 3. Define the request method and make a call to the client
-     *    i.e client.get(apiUrl, params, handler);
-     *    i.e client.post(apiUrl, params, handler);
+    /**
+     * Update user's status.
+     *
+     * @param tweet   the tweet to update user's status
+     * @param handler a JsonHttpResponseHandler to handle response
      */
+    public void postUpdate(String tweet, JsonHttpResponseHandler handler) {
+        String endpoint = getApiUrl("statuses/update.json");
+        RequestParams postData = new RequestParams("status", tweet);
+        client.post(endpoint, postData, handler);
+    }
 
 }
