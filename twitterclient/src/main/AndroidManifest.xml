@@ -37,7 +37,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="me.g13n.twitterclient.ComposeActivity"
+            android:name=".activities.ComposeActivity"
             android:label="@string/activity_compose" >
         </activity>
     </application>

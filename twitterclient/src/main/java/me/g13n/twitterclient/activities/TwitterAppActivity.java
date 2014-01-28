@@ -16,7 +16,6 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-import me.g13n.twitterclient.ComposeActivity;
 import me.g13n.twitterclient.R;
 import me.g13n.twitterclient.helpers.TweetsAdapter;
 import me.g13n.twitterclient.helpers.TwitterClient;

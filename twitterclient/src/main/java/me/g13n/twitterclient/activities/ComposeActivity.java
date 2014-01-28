@@ -1,4 +1,4 @@
-package me.g13n.twitterclient;
+package me.g13n.twitterclient.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONObject;
 
+import me.g13n.twitterclient.R;
 import me.g13n.twitterclient.helpers.TwitterClient;
 import me.g13n.twitterclient.helpers.TwitterClientApp;
 
@@ -94,6 +95,7 @@ public class ComposeActivity extends Activity {
             public void onFailure(Throwable throwable, JSONObject jsonObject) {
                 Toast.makeText(getBaseContext(), R.string.error_compose, Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 
