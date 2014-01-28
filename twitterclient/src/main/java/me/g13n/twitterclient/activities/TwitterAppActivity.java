@@ -30,7 +30,7 @@ public class TwitterAppActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitter_app);
 
-        displayTimeline();
+        refreshTimeline();
     }
 
     @Override
@@ -82,6 +82,11 @@ public class TwitterAppActivity extends Activity {
     }
 
 
+    public void onRefresh(MenuItem item) {
+        refreshTimeline();
+    }
+
+
     public void onCompose(MenuItem menuItem) {
         Intent composeIntent = new Intent(this, ComposeActivity.class);
         startActivityForResult(composeIntent, COMPOSE_ACTIVITY);
@@ -90,7 +95,7 @@ public class TwitterAppActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == COMPOSE_ACTIVITY && resultCode == RESULT_OK) {
-            displayTimeline();
+            refreshTimeline();
         }
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -106,7 +111,7 @@ public class TwitterAppActivity extends Activity {
     }
 
 
-    protected void displayTimeline() {
+    protected void refreshTimeline() {
         TwitterClient twitterClient = (TwitterClient) TwitterClientApp.getClient();
         twitterClient.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override

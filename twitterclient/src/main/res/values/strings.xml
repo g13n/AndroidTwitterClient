@@ -22,5 +22,6 @@
 
     <!-- Twitter timeline format -->
     <string name="screen_name_format">\@%s</string>
+    <string name="action_refresh">Refresh</string>
 
 </resources>
