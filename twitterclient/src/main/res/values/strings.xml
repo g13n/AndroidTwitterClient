@@ -13,6 +13,7 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_compose">Tweet</string>
     <string name="profile_desc">Profile Image</string>
+    <string name="status_hint">Update your status (%d characters max)</string>
 
     <!-- Action bar icons -->
     <string name="action_login">Log in</string>

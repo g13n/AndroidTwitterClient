@@ -3,7 +3,10 @@ package me.g13n.twitterclient;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,6 +23,51 @@ public class ComposeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+
+        EditText etStatus = (EditText) findViewById(R.id.etStatus);
+        String hint = getString(R.string.status_hint);
+        etStatus.setHint(String.format(hint, STATUS_LIMIT));
+
+        errorMessage = Toast.makeText(getBaseContext(), R.string.error_length,
+                Toast.LENGTH_SHORT);
+        errorShown = false;
+
+        bindUI();
+    }
+
+    private void bindUI() {
+        EditText etStatus = (EditText) findViewById(R.id.etStatus);
+        etStatus.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                // nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                // nothing
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Button btnCompose = (Button) findViewById(R.id.btnCompose);
+
+                // TODO: will it work for all languages?
+                if (editable.length() > STATUS_LIMIT) {
+                    btnCompose.setEnabled(false);
+                    if (!errorShown) {
+                        errorMessage.show();
+                        errorShown = true;
+                    }
+                } else {
+                    btnCompose.setEnabled(true);
+                    if (errorShown) {
+                        errorMessage.cancel();
+                        errorShown = false;
+                    }
+                }
+            }
+        });
     }
 
 
@@ -54,5 +102,12 @@ public class ComposeActivity extends Activity {
         setResult(RESULT_CANCELED, data);
         finish();
     }
+
+
+    private Toast errorMessage;
+    private boolean errorShown;
+
+    /** Twitter status limit */
+    private final int STATUS_LIMIT = 140;
 
 }
