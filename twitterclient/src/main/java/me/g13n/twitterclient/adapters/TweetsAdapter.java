@@ -1,4 +1,4 @@
-package me.g13n.twitterclient.helpers;
+package me.g13n.twitterclient.adapters;
 
 import android.content.Context;
 import android.text.Html;
