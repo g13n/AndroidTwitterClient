@@ -10,6 +10,7 @@
     tools:context=".ComposeActivity">
 
     <Button
+        android:background="@drawable/default_round_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_cancel"
@@ -19,6 +20,8 @@
         android:onClick="onCancel"/>
 
     <Button
+        android:background="@drawable/primary_round_button"
+        android:textColor="@color/primary_button_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_compose"
