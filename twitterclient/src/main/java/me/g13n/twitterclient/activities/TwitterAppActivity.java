@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -28,6 +29,8 @@ public class TwitterAppActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitter_app);
+
+        bindUI();
 
         refreshTimeline();
     }
@@ -112,13 +115,39 @@ public class TwitterAppActivity extends Activity {
 
     protected void refreshTimeline() {
         TwitterClient twitterClient = (TwitterClient) TwitterClientApp.getClient();
-        twitterClient.getHomeTimeline(new JsonHttpResponseHandler() {
+        twitterClient.getHomeTimeline(lastId, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONArray jsonResults) {
                 ArrayList<Tweet> tweets = Tweet.fromJSON(jsonResults);
-                ListView lvTweets = (ListView) findViewById(R.id.lvTweets);
-                TweetsAdapter tweetsAdapter = new TweetsAdapter(getBaseContext(), tweets);
-                lvTweets.setAdapter(tweetsAdapter);
+                int numItems = tweets.size();
+                if (numItems > 0) {
+                    lastId = tweets.get(numItems - 1).getId();
+                    for (Tweet tweet : tweets) {
+                        tweetsAdapter.add(tweet);
+                    }
+                    tweetsAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+
+
+    protected void bindUI() {
+        tweetsAdapter = new TweetsAdapter(this, new ArrayList<Tweet>());
+        lvTweets = (ListView) findViewById(R.id.lvTweets);
+        lvTweets.setAdapter(tweetsAdapter);
+        lvTweets.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                                 int totalItemCount) {
+                if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+                    refreshTimeline();
+                }
             }
         });
     }
@@ -128,6 +157,10 @@ public class TwitterAppActivity extends Activity {
     private final int LOGIN_ACTIVITY = 1;
 
 
+    private ListView lvTweets;
+    private TweetsAdapter tweetsAdapter;
+
+    private long lastId = 0;
     private Menu menu;
     private boolean isLoggedIn = true;
 

@@ -39,9 +39,26 @@ public class TwitterClient extends OAuthBaseClient {
      * @param handler a JsonHttpResponseHandler to handle response
      */
     public void getHomeTimeline(JsonHttpResponseHandler handler) {
-        String endpoint = getApiUrl("statuses/home_timeline.json");
-        client.get(endpoint, handler);
+        getHomeTimeline(0, handler);
     }
+
+    /**
+     * Return home timeline for the logged in user.
+     *
+     * @param lastId the (since_id) offset to the timeline
+     * @param handler a JsonHttpResponseHandler to handle response
+     */
+    public void getHomeTimeline(long lastId, JsonHttpResponseHandler handler) {
+        String endpoint = getApiUrl("statuses/home_timeline.json");
+        if (lastId > 0) {
+            RequestParams params = new RequestParams();
+            params.put("since_id", String.valueOf(lastId));
+            client.get(endpoint, params, handler);
+        } else {
+            client.get(endpoint, handler);
+        }
+    }
+
 
     /**
      * Update user's status.
