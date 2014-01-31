@@ -10,11 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
-
 import org.json.JSONObject;
 
 import me.g13n.twitterclient.R;
+import me.g13n.twitterclient.helpers.BaseJsonHttpResponseHandler;
 import me.g13n.twitterclient.helpers.TwitterClient;
 import me.g13n.twitterclient.helpers.TwitterClientApp;
 
@@ -82,18 +81,15 @@ public class ComposeActivity extends Activity {
         }
 
         TwitterClient twitterClient = (TwitterClient) TwitterClientApp.getClient();
-        twitterClient.postUpdate(status, new JsonHttpResponseHandler() {
+        twitterClient.postUpdate(status,
+                new BaseJsonHttpResponseHandler(getBaseContext(), getString(R.string.error_service),
+                        getString(R.string.error_network)) {
 
             @Override
             public void onSuccess(JSONObject jsonResult) {
                 Intent data = new Intent();
                 setResult(RESULT_OK, data);
                 finish();
-            }
-
-            @Override
-            public void onFailure(Throwable throwable, JSONObject jsonObject) {
-                Toast.makeText(getBaseContext(), R.string.error_compose, Toast.LENGTH_SHORT).show();
             }
 
         });

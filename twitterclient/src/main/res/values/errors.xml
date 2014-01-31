@@ -2,7 +2,8 @@
 <resources>
 
     <string name="error_empty_status">Status cannot be empty</string>
-    <string name="error_compose">Twitter returned failure. Try again later</string>
+    <string name="error_service">Twitter returned failure. Try again later</string>
     <string name="error_length">Status messages cannot be more than 140 characters</string>
+    <string name="error_network">No network connection</string>
 
 </resources>

@@ -11,14 +11,13 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
-
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 
 import me.g13n.twitterclient.R;
 import me.g13n.twitterclient.adapters.TweetsAdapter;
+import me.g13n.twitterclient.helpers.BaseJsonHttpResponseHandler;
 import me.g13n.twitterclient.helpers.TwitterClient;
 import me.g13n.twitterclient.helpers.TwitterClientApp;
 import me.g13n.twitterclient.models.Tweet;
@@ -115,7 +114,10 @@ public class TwitterAppActivity extends Activity {
 
     protected void refreshTimeline() {
         TwitterClient twitterClient = (TwitterClient) TwitterClientApp.getClient();
-        twitterClient.getHomeTimeline(lastId, new JsonHttpResponseHandler() {
+        twitterClient.getHomeTimeline(lastId,
+                new BaseJsonHttpResponseHandler(getBaseContext(), getString(R.string.error_service),
+                        getString(R.string.error_network)) {
+
             @Override
             public void onSuccess(JSONArray jsonResults) {
                 ArrayList<Tweet> tweets = Tweet.fromJSON(jsonResults);
@@ -128,6 +130,7 @@ public class TwitterAppActivity extends Activity {
                     tweetsAdapter.notifyDataSetChanged();
                 }
             }
+
         });
     }
 
