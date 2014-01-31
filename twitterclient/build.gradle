@@ -18,6 +18,7 @@ android {
     }
 }
 
+//noinspection GroovyAssignabilityCheck
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
     compile files('libs/ActiveAndroid-3.1-adcddac4c58.jar')

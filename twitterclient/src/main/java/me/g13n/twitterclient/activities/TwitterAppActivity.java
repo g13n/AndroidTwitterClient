@@ -137,7 +137,7 @@ public class TwitterAppActivity extends Activity {
 
     protected void bindUI() {
         tweetsAdapter = new TweetsAdapter(this, new ArrayList<Tweet>());
-        lvTweets = (ListView) findViewById(R.id.lvTweets);
+        ListView lvTweets = (ListView) findViewById(R.id.lvTweets);
         lvTweets.setAdapter(tweetsAdapter);
         lvTweets.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -160,7 +160,6 @@ public class TwitterAppActivity extends Activity {
     private final int LOGIN_ACTIVITY = 1;
 
 
-    private ListView lvTweets;
     private TweetsAdapter tweetsAdapter;
 
     private long lastId = 0;
