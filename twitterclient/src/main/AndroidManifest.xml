@@ -13,6 +13,8 @@
         android:theme="@style/AppTheme">
 
         <meta-data android:name="AA_DB_NAME" android:value="G13nTwitterClient.db"/>
+        <meta-data android:name="AA_SERIALIZERS"
+                   android:value="me.g13n.twitterclient.helpers.UserSerializer"/>
 
         <activity
             android:name="me.g13n.twitterclient.activities.TwitterAppActivity"

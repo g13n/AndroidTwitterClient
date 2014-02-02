@@ -25,8 +25,16 @@ public class BaseJsonHttpResponseHandler extends JsonHttpResponseHandler {
 
     @Override
     protected void handleFailureMessage(Throwable error, String s) {
-        HttpResponseException response = (HttpResponseException) error;
-        if (response.getStatusCode() > 400) {
+        int statusCode = 0;
+
+        try {
+            HttpResponseException response = (HttpResponseException) error;
+            statusCode = response.getStatusCode();
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+
+        if (statusCode > 400) {
             Log.e("handleFailureMessage", error.toString());
             Toast.makeText(appContext, genericError, Toast.LENGTH_SHORT).show();
         } else {

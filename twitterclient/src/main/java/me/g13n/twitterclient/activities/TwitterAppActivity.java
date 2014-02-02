@@ -11,9 +11,12 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.activeandroid.ActiveAndroid;
+
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.g13n.twitterclient.R;
 import me.g13n.twitterclient.adapters.TweetsAdapter;
@@ -30,8 +33,7 @@ public class TwitterAppActivity extends Activity {
         setContentView(R.layout.activity_twitter_app);
 
         bindUI();
-
-        refreshTimeline();
+        preloadTweets();
     }
 
     @Override
@@ -112,7 +114,16 @@ public class TwitterAppActivity extends Activity {
     }
 
 
-    protected void refreshTimeline() {
+    private void preloadTweets() {
+        List<Tweet> tweets = TwitterClientApp.getTweets();
+        Log.v("preloadTweets", "Returning " + tweets.size() + " tweets from the database");
+        for (Tweet tweet : tweets) {
+            tweetsAdapter.add(tweet);
+        }
+        tweetsAdapter.notifyDataSetChanged();
+    }
+
+    private void refreshTimeline() {
         TwitterClient twitterClient = (TwitterClient) TwitterClientApp.getClient();
         twitterClient.getHomeTimeline(lastId,
                 new BaseJsonHttpResponseHandler(getBaseContext(), getString(R.string.error_service),
@@ -123,11 +134,29 @@ public class TwitterAppActivity extends Activity {
                 ArrayList<Tweet> tweets = Tweet.fromJSON(jsonResults);
                 int numItems = tweets.size();
                 if (numItems > 0) {
-                    lastId = tweets.get(numItems - 1).getTweetId();
-                    for (Tweet tweet : tweets) {
-                        tweetsAdapter.add(tweet);
+                    /*
+                     * If this is the first time refreshTimeline is being called, the list might
+                     * have old tweets from the previous session (restored from the database.)
+                     * Just wipe and start over again.
+                     */
+                    if (!hasRefreshed) {
+                        tweetsAdapter.clear();
+                        hasRefreshed = true;
+                        Log.v("refreshTimeline", "clearing the list ...");
                     }
-                    tweetsAdapter.notifyDataSetChanged();
+
+                    ActiveAndroid.beginTransaction();
+                    lastId = tweets.get(numItems - 1).getTweetId();
+                    try {
+                        for (Tweet tweet : tweets) {
+                            tweetsAdapter.add(tweet);
+                            tweet.save();
+                        }
+                        tweetsAdapter.notifyDataSetChanged();
+                        ActiveAndroid.setTransactionSuccessful();
+                    } finally {
+                        ActiveAndroid.endTransaction();
+                    }
                 }
             }
 
@@ -135,7 +164,7 @@ public class TwitterAppActivity extends Activity {
     }
 
 
-    protected void bindUI() {
+    private void bindUI() {
         tweetsAdapter = new TweetsAdapter(this, new ArrayList<Tweet>());
         ListView lvTweets = (ListView) findViewById(R.id.lvTweets);
         lvTweets.setAdapter(tweetsAdapter);
@@ -165,5 +194,6 @@ public class TwitterAppActivity extends Activity {
     private long lastId = 0;
     private Menu menu;
     private boolean isLoggedIn = true;
+    private boolean hasRefreshed = false;
 
 }

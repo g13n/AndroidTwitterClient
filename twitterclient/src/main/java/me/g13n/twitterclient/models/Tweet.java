@@ -3,6 +3,7 @@ package me.g13n.twitterclient.models;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,23 +108,28 @@ public class Tweet extends Model {
         return tweets;
     }
 
+    public static String toJSON(Tweet tweet) {
+        Gson gson = new Gson();
+        return gson.toJson(tweet);
+    }
 
-    @Column(name = "tweetId")
+
+    @Column(name = "TweetId")
     private long tweetId;
 
-    @Column(name = "createdAt")
+    @Column(name = "CreatedAt")
     private Date createdAt;
 
-    @Column(name = "text")
+    @Column(name = "Text")
     private String text;
 
-    @Column(name = "isFavorited")
+    @Column(name = "IsFavorited")
     private boolean isFavorited;
 
-    @Column(name = "isRetweeted")
+    @Column(name = "IsRetweeted")
     private boolean isRetweeted;
 
-    @Column(name = "user", index = true)
+    @Column(name = "User")
     private User user;
 
 }

@@ -42,6 +42,9 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
 
         Tweet tweet = getItem(position);
         User user   = tweet.getUser();
+        if (tweet == null || user == null) {
+            return view;
+        }
 
         if (view != null) {
             ImageView ivProfile = (ImageView) view.findViewById(R.id.ivProfile);

@@ -3,14 +3,28 @@ package me.g13n.twitterclient.models;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 @Table(name = "Users")
 public class User extends Model {
+
+    public User() {
+        super();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gson = gsonBuilder.registerTypeAdapter(User.class, new UserAdapter()).create();
+    }
+
 
     public String getName() {
         return name;
@@ -97,34 +111,65 @@ public class User extends Model {
         return user;
     }
 
-
-    public List<Tweet> tweets() {
-        return getMany(Tweet.class, "user");
+    public static String toJSON(User user) {
+        return user.getJSONSerializer().toJson(user, User.class);
     }
 
 
-    @Column(name = "name")
+    public List<Tweet> tweets() {
+        return getMany(Tweet.class, "User");
+    }
+
+
+    public Gson getJSONSerializer() {
+        return gson;
+    }
+
+
+    private Gson gson;
+
+    @Column(name = "Name")
     private String name;
 
-    @Column(name = "profileImageURL")
+    @Column(name = "ProfileImageURL")
     private String profileImageURL;
 
-    @Column(name = "location")
+    @Column(name = "Location")
     private String location;
 
-    @Column(name = "homePage")
+    @Column(name = "HomePage")
     private String homePage;
 
-    @Column(name = "userId")
+    @Column(name = "UserId")
     private long userId;
 
-    @Column(name = "numFollowers")
+    @Column(name = "NumFollowers")
     private long numFollowers;
 
-    @Column(name = "numFriends")
+    @Column(name = "NumFriends")
     private long numFriends;
 
-    @Column(name = "screenName", index = true)
+    @Column(name = "ScreenName", index = true)
     private String screenName;
+
+}
+
+class UserAdapter implements JsonSerializer<User> {
+
+    @Override
+    public JsonElement serialize(User user, Type type,
+                                 JsonSerializationContext jsonSerializationContext) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("Name",            user.getName());
+        jsonObject.addProperty("ProfileImageURL", user.getProfileImageURL());
+        jsonObject.addProperty("Location",        user.getLocation());
+        jsonObject.addProperty("HomePage",        user.getHomePage());
+        jsonObject.addProperty("UserId",          user.getUserId());
+        jsonObject.addProperty("NumFollowers",    user.getNumFollowers());
+        jsonObject.addProperty("NumFriends",      user.getNumFriends());
+        jsonObject.addProperty("ScreenName",      user.getScreenName());
+
+        return jsonObject;
+    }
 
 }

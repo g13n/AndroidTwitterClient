@@ -2,11 +2,17 @@ package me.g13n.twitterclient.helpers;
 
 import android.content.Context;
 
+import com.activeandroid.query.Select;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.util.List;
+
+import me.g13n.twitterclient.models.Tweet;
+
 public class TwitterClientApp extends com.activeandroid.app.Application {
+
 	private static Context context;
 	
     @Override
@@ -25,6 +31,13 @@ public class TwitterClientApp extends com.activeandroid.app.Application {
 
 
     public static TwitterClient getClient() {
-    	return (TwitterClient) TwitterClient.getInstance(TwitterClient.class, TwitterClientApp.context);
+    	return (TwitterClient) TwitterClient.getInstance(TwitterClient.class,
+                TwitterClientApp.context);
     }
+
+    public static List<Tweet> getTweets() {
+        List<Tweet> tweets = new Select().from(Tweet.class).execute();
+        return tweets;
+    }
+
 }
