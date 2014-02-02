@@ -123,7 +123,7 @@ public class TwitterAppActivity extends Activity {
                 ArrayList<Tweet> tweets = Tweet.fromJSON(jsonResults);
                 int numItems = tweets.size();
                 if (numItems > 0) {
-                    lastId = tweets.get(numItems - 1).getId();
+                    lastId = tweets.get(numItems - 1).getTweetId();
                     for (Tweet tweet : tweets) {
                         tweetsAdapter.add(tweet);
                     }

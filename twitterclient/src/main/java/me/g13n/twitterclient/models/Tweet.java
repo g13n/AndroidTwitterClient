@@ -1,5 +1,9 @@
 package me.g13n.twitterclient.models;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,19 +11,74 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Tweet extends OurJSONObject {
+@Table(name = "Tweets")
+public class Tweet extends Model {
 
-    Tweet(JSONObject jsonObject) {
-        super(jsonObject);
+    public long getTweetId() {
+        return tweetId;
     }
 
+    public void setTweetId(long tweetId) {
+        this.tweetId = tweetId;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = new Date(createdAt);
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public boolean isFavorited() {
+        return isFavorited;
+    }
+
+    public void setFavorited(boolean isFavorited) {
+        this.isFavorited = isFavorited;
+    }
+
+    public boolean isRetweeted() {
+        return isRetweeted;
+    }
+
+    public void setRetweeted(boolean isRetweeted) {
+        this.isRetweeted = isRetweeted;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
     public static Tweet fromJSON(JSONObject jsonObject) {
-        Tweet tweet = new Tweet(jsonObject);
+        Tweet tweet = new Tweet();
 
         try {
-            tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
-        } catch (JSONException ex) {
-            tweet.user = null;
+            tweet.setTweetId(jsonObject.getLong("id"));
+            tweet.setCreatedAt(jsonObject.getString("created_at"));
+            tweet.setText(jsonObject.getString("text"));
+            tweet.setFavorited(jsonObject.getBoolean("favorited"));
+            tweet.setRetweeted(jsonObject.getBoolean("retweeted"));
+            tweet.setUser(User.fromJSON(jsonObject.getJSONObject("user")));
+        } catch (JSONException e) {
+            tweet = null;
         }
 
         return tweet;
@@ -39,7 +98,9 @@ public class Tweet extends OurJSONObject {
 
             if (jsonObject != null) {
                 Tweet tweet = Tweet.fromJSON(jsonObject);
-                tweets.add(tweet);
+                if (tweet != null) {
+                    tweets.add(tweet);
+                }
             }
         }
 
@@ -47,31 +108,22 @@ public class Tweet extends OurJSONObject {
     }
 
 
-    public long getId() {
-        return getLong("id");
-    }
+    @Column(name = "tweetId")
+    private long tweetId;
 
-    public String getText() {
-        return getString("text");
-    }
+    @Column(name = "createdAt")
+    private Date createdAt;
 
-    public boolean isFavorited() {
-        return getBoolean("favorited");
-    }
+    @Column(name = "text")
+    private String text;
 
-    public boolean isRetweeted() {
-        return getBoolean("retweeted");
-    }
+    @Column(name = "isFavorited")
+    private boolean isFavorited;
 
-    public User getUser() {
-        return user;
-    }
+    @Column(name = "isRetweeted")
+    private boolean isRetweeted;
 
-    public Date getTime() {
-        return new Date(getString("created_at"));
-    }
-
-
+    @Column(name = "user")
     private User user;
 
 }

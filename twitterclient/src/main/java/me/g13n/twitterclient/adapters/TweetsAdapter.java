@@ -45,7 +45,7 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
 
         if (view != null) {
             ImageView ivProfile = (ImageView) view.findViewById(R.id.ivProfile);
-            imgLoader.displayImage(user.getProfileImageUrl(), ivProfile);
+            imgLoader.displayImage(user.getProfileImageURL(), ivProfile);
 
             TextView tvName = (TextView) view.findViewById(R.id.tvName);
             tvName.setText(Html.fromHtml(user.getName()));
@@ -56,7 +56,7 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
             tvId.setText(Html.fromHtml(screenName));
 
             TextView tvTime = (TextView) view.findViewById(R.id.tvTime);
-            Date time = tweet.getTime();
+            Date time = tweet.getCreatedAt();
             String friendlyTime = (String) DateUtils.getRelativeDateTimeString(context,
                     time.getTime(), DateUtils.MINUTE_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0);
             tvTime.setText(friendlyTime);
