@@ -8,7 +8,7 @@ import android.view.View;
 import com.codepath.oauth.OAuthLoginActivity;
 
 import me.g13n.twitterclient.R;
-import me.g13n.twitterclient.helpers.TwitterClient;
+import me.g13n.twitterclient.clients.TwitterClient;
 
 public class LoginActivity extends OAuthLoginActivity<TwitterClient> {
 

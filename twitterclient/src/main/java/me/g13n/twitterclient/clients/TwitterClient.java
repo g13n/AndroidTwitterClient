@@ -1,4 +1,4 @@
-package me.g13n.twitterclient.helpers;
+package me.g13n.twitterclient.clients;
 
 import android.content.Context;
 

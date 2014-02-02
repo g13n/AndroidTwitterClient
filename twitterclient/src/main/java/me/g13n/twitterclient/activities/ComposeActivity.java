@@ -15,8 +15,8 @@ import org.json.JSONObject;
 
 import me.g13n.twitterclient.R;
 import me.g13n.twitterclient.helpers.BaseJsonHttpResponseHandler;
-import me.g13n.twitterclient.helpers.TwitterClient;
-import me.g13n.twitterclient.helpers.TwitterClientApp;
+import me.g13n.twitterclient.clients.TwitterClient;
+import me.g13n.twitterclient.clients.TwitterClientApp;
 
 public class ComposeActivity extends Activity {
 
