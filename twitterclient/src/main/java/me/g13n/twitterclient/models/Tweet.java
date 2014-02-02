@@ -123,7 +123,7 @@ public class Tweet extends Model {
     @Column(name = "isRetweeted")
     private boolean isRetweeted;
 
-    @Column(name = "user")
+    @Column(name = "user", index = true)
     private User user;
 
 }

@@ -7,6 +7,8 @@ import com.activeandroid.annotation.Table;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 @Table(name = "Users")
 public class User extends Model {
 
@@ -96,6 +98,11 @@ public class User extends Model {
     }
 
 
+    public List<Tweet> tweets() {
+        return getMany(Tweet.class, "user");
+    }
+
+
     @Column(name = "name")
     private String name;
 
@@ -117,7 +124,7 @@ public class User extends Model {
     @Column(name = "numFriends")
     private long numFriends;
 
-    @Column(name = "screenName")
+    @Column(name = "screenName", index = true)
     private String screenName;
 
 }
