@@ -24,4 +24,8 @@
     <string name="screen_name_format">\@%s</string>
     <string name="action_refresh">Refresh</string>
 
+    <!-- Tabs -->
+    <string name="homeTab">Home</string>
+    <string name="mentionsTab">Mentions</string>
+
 </resources>

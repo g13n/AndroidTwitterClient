@@ -61,6 +61,33 @@ public class TwitterClient extends OAuthBaseClient {
 
 
     /**
+     * Return mentions timeline for the logged in user.
+     *
+     * @param handler a JsonHttpResponseHandler to handle response
+     */
+    public void getMentionsTimeline(JsonHttpResponseHandler handler) {
+        getMentionsTimeline(0, handler);
+    }
+
+    /**
+     * Return mentions timeline for the logged in user.
+     *
+     * @param lastId the (since_id) offset to the timeline
+     * @param handler a JsonHttpResponseHandler to handle response
+     */
+    public void getMentionsTimeline(long lastId, JsonHttpResponseHandler handler) {
+        String endpoint = getApiUrl("statuses/mentions_timeline.json");
+        if (lastId > 0) {
+            RequestParams params = new RequestParams();
+            params.put("since_id", String.valueOf(lastId));
+            client.get(endpoint, params, handler);
+        } else {
+            client.get(endpoint, handler);
+        }
+    }
+
+
+    /**
      * Update user's status.
      *
      * @param tweet   the tweet to update user's status
