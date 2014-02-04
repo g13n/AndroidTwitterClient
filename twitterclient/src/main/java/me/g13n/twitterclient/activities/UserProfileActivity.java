@@ -16,22 +16,35 @@ import org.json.JSONObject;
 import me.g13n.twitterclient.R;
 import me.g13n.twitterclient.clients.TwitterClient;
 import me.g13n.twitterclient.clients.TwitterClientApp;
+import me.g13n.twitterclient.fragments.TimelineFragment;
 import me.g13n.twitterclient.fragments.UserProfileFragment;
 import me.g13n.twitterclient.helpers.BaseJsonHttpResponseHandler;
+import me.g13n.twitterclient.models.Tweet;
 import me.g13n.twitterclient.models.User;
 
-public class UserProfileActivity extends FragmentActivity {
+public class UserProfileActivity extends FragmentActivity
+        implements TimelineFragment.OnTweetClickListener {
+
+    @Override
+    public void onTweetClick(Tweet tweet) {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        showUserProfile();
+        user = (User) getIntent().getParcelableExtra("User");
+        if (user == null) {
+            showUserProfile(null);
+        } else {
+            showUserProfile(user.getScreenName());
+        }
     }
 
 
-    private void showUserProfile() {
+    private void showUserProfile(String screenName) {
         Context context = getBaseContext();
         final Activity activity = this;
 
@@ -40,39 +53,39 @@ public class UserProfileActivity extends FragmentActivity {
         final ImageLoader imgLoader = ImageLoader.getInstance();
         imgLoader.init(ImageLoaderConfiguration.createDefault(context));
 
-        twitterClient.getMyDetails(new BaseJsonHttpResponseHandler(context,
+        twitterClient.getUserInfo(screenName, new BaseJsonHttpResponseHandler(context,
                 getString(R.string.error_service), getString(R.string.error_network)) {
 
             @Override
             public void onSuccess(JSONObject jsonObject) {
 
-                User loggedInUser = User.fromJSON(jsonObject);
+                User user = User.fromJSON(jsonObject);
 
-                String profileImageUrl = loggedInUser.getProfileImageURL();
+                String profileImageUrl = user.getProfileImageURL();
                 if (profileImageUrl != null || profileImageUrl != "") {
                     ImageView ivUserProfile = (ImageView) findViewById(R.id.ivUserProfile);
                     imgLoader.displayImage(profileImageUrl, ivUserProfile);
                 }
 
                 TextView tvProfileName = (TextView) findViewById(R.id.tvProfileName);
-                tvProfileName.setText(loggedInUser.getName());
+                tvProfileName.setText(user.getName());
 
                 TextView tvProfileDesc = (TextView) findViewById(R.id.tvProfileDesc);
-                tvProfileDesc.setText(loggedInUser.getDescription());
+                tvProfileDesc.setText(user.getDescription());
 
                 TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
                 tvFollowers.setText(String.format(getString(R.string.followers_count_format),
-                        loggedInUser.getFollowersCount()));
+                        user.getFollowersCount()));
 
                 TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
                 tvFollowing.setText(String.format(getString(R.string.following_count_format),
-                        loggedInUser.getFriendsCount()));
+                        user.getFriendsCount()));
 
                 activity.setTitle(String.format(getString(R.string.screen_name_format),
-                        loggedInUser.getScreenName()));
+                        user.getScreenName()));
 
                 Bundle args = new Bundle();
-                args.putParcelable("User", loggedInUser);
+                args.putParcelable("User", user);
 
                 UserProfileFragment userProfileFragment = new UserProfileFragment();
                 userProfileFragment.setArguments(args);
@@ -86,5 +99,8 @@ public class UserProfileActivity extends FragmentActivity {
 
         });
     }
+
+
+    private User user;
 
 }

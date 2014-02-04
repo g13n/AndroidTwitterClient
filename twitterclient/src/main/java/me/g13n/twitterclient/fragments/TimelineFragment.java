@@ -1,5 +1,6 @@
 package me.g13n.twitterclient.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.activeandroid.ActiveAndroid;
@@ -31,6 +33,14 @@ import me.g13n.twitterclient.models.Tweet;
 
 public class TimelineFragment extends Fragment {
 
+    /**
+     * Handler when a tweet is clicked.
+     */
+    public interface OnTweetClickListener {
+        public void onTweetClick(Tweet tweet);
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_timeline, container, false);
@@ -46,6 +56,19 @@ public class TimelineFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (activity instanceof OnTweetClickListener) {
+            tweetClickListener = (OnTweetClickListener) activity;
+        } else {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnTweetClickListener");
+        }
     }
 
 
@@ -74,8 +97,10 @@ public class TimelineFragment extends Fragment {
     private void bindUI() {
         twitterClient = TwitterClientApp.getClient();
         tweetsAdapter = new TweetsAdapter(getActivity().getBaseContext(), new ArrayList<Tweet>());
+
         ListView lvTweets = (ListView) rootView.findViewById(R.id.lvTweets);
         lvTweets.setAdapter(tweetsAdapter);
+
         lvTweets.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -88,6 +113,14 @@ public class TimelineFragment extends Fragment {
                 if (firstVisibleItem + visibleItemCount >= totalItemCount) {
                     refreshTimeline();
                 }
+            }
+        });
+
+        lvTweets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Tweet tweet = (Tweet) adapterView.getItemAtPosition(position);
+                tweetClickListener.onTweetClick(tweet);
             }
         });
     }
@@ -148,6 +181,8 @@ public class TimelineFragment extends Fragment {
 
     protected TwitterClient twitterClient;
     protected TweetsAdapter tweetsAdapter;
+
+    protected OnTweetClickListener tweetClickListener;
 
 }
 

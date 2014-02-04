@@ -13,8 +13,10 @@ import android.view.MenuItem;
 import me.g13n.twitterclient.R;
 import me.g13n.twitterclient.fragments.MentionsFragment;
 import me.g13n.twitterclient.fragments.TimelineFragment;
+import me.g13n.twitterclient.models.Tweet;
 
-public class TwitterAppActivity extends ActionBarActivity {
+public class TwitterAppActivity extends ActionBarActivity
+        implements TimelineFragment.OnTweetClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,14 @@ public class TwitterAppActivity extends ActionBarActivity {
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
+    public void onTweetClick(Tweet tweet) {
+        Intent userProfile = new Intent(this, UserProfileActivity.class);
+        userProfile.putExtra("User", tweet.getUser());
+        startActivity(userProfile);
     }
 
 

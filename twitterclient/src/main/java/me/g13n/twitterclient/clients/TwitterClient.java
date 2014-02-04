@@ -88,18 +88,27 @@ public class TwitterClient extends OAuthBaseClient {
 
 
     /**
-     * Return logged in user's details.
+     * Return user's info.
      *
+     * @param screenName the user's screen_name
      * @param handler a JsonHttpResponseHandler to handle response
      */
-    public void getMyDetails(JsonHttpResponseHandler handler) {
+    public void getUserInfo(String screenName, JsonHttpResponseHandler handler) {
         String endpoint = getApiUrl("account/verify_credentials.json");
-        client.get(endpoint, handler);
+        if (screenName == null) {
+            client.get(endpoint, handler);
+            return;
+        }
+
+        endpoint = getApiUrl("users/show.json");
+        RequestParams params = new RequestParams();
+        params.put("screen_name", screenName);
+        client.get(endpoint, params, handler);
     }
 
 
     /**
-     * Return user's timeline for the logged in user.
+     * Return user's timeline.
      *
      * @param screenName the user's screen_name
      * @param handler a JsonHttpResponseHandler to handle response
@@ -109,7 +118,7 @@ public class TwitterClient extends OAuthBaseClient {
     }
 
     /**
-     * Return user's timeline for the logged in user.
+     * Return user's timeline.
      *
      * @param screenName the user's screen_name
      * @param lastId the (since_id) offset to the timeline
@@ -117,13 +126,15 @@ public class TwitterClient extends OAuthBaseClient {
      */
     public void getUserTimeline(String screenName, long lastId, JsonHttpResponseHandler handler) {
         String endpoint = getApiUrl("statuses/user_timeline.json");
+
+        RequestParams params = new RequestParams();
+        params.put("screen_name", screenName);
+
         if (lastId > 0) {
-            RequestParams params = new RequestParams();
             params.put("since_id", String.valueOf(lastId));
-            client.get(endpoint, params, handler);
-        } else {
-            client.get(endpoint, handler);
         }
+
+        client.get(endpoint, params, handler);
     }
 
 
