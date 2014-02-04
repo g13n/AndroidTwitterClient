@@ -56,8 +56,9 @@ public class TwitterAppActivity extends ActionBarActivity {
 
 
     protected void showTimeline() {
+        String selectedTab = getSupportActionBar().getSelectedTab().getTag().toString();
         TimelineFragment fragment = (TimelineFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragmentTimeline);
+                .findFragmentByTag(selectedTab);
         if (fragment == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.container, new TimelineFragment());
@@ -77,12 +78,14 @@ public class TwitterAppActivity extends ActionBarActivity {
 
         tab = actionBar.newTab()
                        .setText(R.string.homeTab)
+                       .setTag("timeline")
                        .setTabListener(new TabListener<TimelineFragment>(
                                this, "timeline", TimelineFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar.newTab()
                        .setText(R.string.mentionsTab)
+                       .setTag("mentions")
                        .setTabListener(new TabListener<MentionsFragment>(
                                this, "mentions", MentionsFragment.class));
         actionBar.addTab(tab);

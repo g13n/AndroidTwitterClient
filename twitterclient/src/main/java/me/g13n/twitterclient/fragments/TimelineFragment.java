@@ -58,9 +58,11 @@ public class TimelineFragment extends Fragment {
         case R.id.action_refresh:
             refreshTimeline();
             break;
+        default:
+            return super.onOptionsItemSelected(menuItem);
         }
 
-        return super.onOptionsItemSelected(menuItem);
+        return true;
     }
 
 
