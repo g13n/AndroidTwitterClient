@@ -1,5 +1,8 @@
 package me.g13n.twitterclient.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -17,13 +20,60 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @Table(name = "Users")
-public class User extends Model {
+public class User extends Model implements Parcelable {
 
     public User() {
         super();
         GsonBuilder gsonBuilder = new GsonBuilder();
         gson = gsonBuilder.registerTypeAdapter(User.class, new UserAdapter()).create();
     }
+
+
+    public User(Parcel parcel) {
+        name = parcel.readString();
+        profileImageURL = parcel.readString();
+        location = parcel.readString();
+        homePage = parcel.readString();
+        userId = parcel.readLong();
+        numFollowers = parcel.readLong();
+        numFriends = parcel.readLong();
+        screenName = parcel.readString();
+        followersCount = parcel.readLong();
+        friendsCount = parcel.readLong();
+        description = parcel.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(profileImageURL);
+        parcel.writeString(location);
+        parcel.writeString(homePage);
+        parcel.writeLong(userId);
+        parcel.writeLong(numFollowers);
+        parcel.writeLong(numFriends);
+        parcel.writeString(screenName);
+        parcel.writeLong(followersCount);
+        parcel.writeLong(friendsCount);
+        parcel.writeString(description);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel parcel) {
+            return new User(parcel);
+        }
+
+        @Override
+        public User[] newArray(int i) {
+            return new User[i];
+        }
+    };
 
 
     public String getName() {
@@ -90,6 +140,30 @@ public class User extends Model {
         this.screenName = screenName;
     }
 
+    public long getFollowersCount() {
+        return followersCount;
+    }
+
+    public void setFollowersCount(long followersCount) {
+        this.followersCount = followersCount;
+    }
+
+    public long getFriendsCount() {
+        return friendsCount;
+    }
+
+    public void setFriendsCount(long friendsCount) {
+        this.friendsCount = friendsCount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public static User fromJSON(JSONObject jsonObject) {
         User user = new User();
@@ -151,6 +225,15 @@ public class User extends Model {
 
     @Column(name = "ScreenName", index = true)
     private String screenName;
+
+    @Column(name = "FollowersCount")
+    private long followersCount;
+
+    @Column(name = "FriendsCount")
+    private long friendsCount;
+
+    @Column(name = "Description")
+    private String description;
 
 }
 

@@ -3,18 +3,20 @@
     package="me.g13n.twitterclient" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name="com.activeandroid.app.Application"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name="com.activeandroid.app.Application"
-        android:theme="@style/AppTheme">
-
-        <meta-data android:name="AA_DB_NAME" android:value="G13nTwitterClient.db"/>
-        <meta-data android:name="AA_SERIALIZERS"
-                   android:value="me.g13n.twitterclient.helpers.UserSerializer"/>
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="G13nTwitterClient.db" />
+        <meta-data
+            android:name="AA_SERIALIZERS"
+            android:value="me.g13n.twitterclient.helpers.UserSerializer" />
 
         <activity
             android:name="me.g13n.twitterclient.activities.TwitterAppActivity"
@@ -27,7 +29,6 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-
         <activity
             android:name="me.g13n.twitterclient.activities.LoginActivity"
             android:label="@string/activity_login" >
@@ -44,12 +45,14 @@
                     android:scheme="oauth" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".activities.ComposeActivity"
+            android:name="me.g13n.twitterclient.activities.ComposeActivity"
             android:label="@string/activity_compose" >
         </activity>
-
+        <activity
+            android:name="me.g13n.twitterclient.activities.UserProfileActivity"
+            android:label="@string/title_activity_user_profile" >
+        </activity>
     </application>
 
 </manifest>

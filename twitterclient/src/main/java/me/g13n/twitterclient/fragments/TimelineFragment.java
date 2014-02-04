@@ -1,6 +1,7 @@
 package me.g13n.twitterclient.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.g13n.twitterclient.R;
+import me.g13n.twitterclient.activities.UserProfileActivity;
 import me.g13n.twitterclient.adapters.TweetsAdapter;
 import me.g13n.twitterclient.clients.TwitterClient;
 import me.g13n.twitterclient.clients.TwitterClientApp;
@@ -57,6 +59,9 @@ public class TimelineFragment extends Fragment {
         switch (menuItem.getItemId()) {
         case R.id.action_refresh:
             refreshTimeline();
+            break;
+        case R.id.action_profile:
+            showUserProfile();
             break;
         default:
             return super.onOptionsItemSelected(menuItem);
@@ -115,6 +120,12 @@ public class TimelineFragment extends Fragment {
                         super.onFailure(error, jsonArray);
                     }
                 });
+    }
+
+
+    public void showUserProfile() {
+        Intent userProfile = new Intent(getActivity(), UserProfileActivity.class);
+        startActivity(userProfile);
     }
 
 

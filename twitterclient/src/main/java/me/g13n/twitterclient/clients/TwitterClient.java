@@ -88,6 +88,46 @@ public class TwitterClient extends OAuthBaseClient {
 
 
     /**
+     * Return logged in user's details.
+     *
+     * @param handler a JsonHttpResponseHandler to handle response
+     */
+    public void getMyDetails(JsonHttpResponseHandler handler) {
+        String endpoint = getApiUrl("account/verify_credentials.json");
+        client.get(endpoint, handler);
+    }
+
+
+    /**
+     * Return user's timeline for the logged in user.
+     *
+     * @param screenName the user's screen_name
+     * @param handler a JsonHttpResponseHandler to handle response
+     */
+    public void getUserTimeline(String screenName, JsonHttpResponseHandler handler) {
+        getUserTimeline(screenName, 0, handler);
+    }
+
+    /**
+     * Return user's timeline for the logged in user.
+     *
+     * @param screenName the user's screen_name
+     * @param lastId the (since_id) offset to the timeline
+     * @param handler a JsonHttpResponseHandler to handle response
+     */
+    public void getUserTimeline(String screenName, long lastId, JsonHttpResponseHandler handler) {
+        String endpoint = getApiUrl("statuses/user_timeline.json");
+        if (lastId > 0) {
+            RequestParams params = new RequestParams();
+            params.put("since_id", String.valueOf(lastId));
+            client.get(endpoint, params, handler);
+        } else {
+            client.get(endpoint, handler);
+        }
+    }
+
+
+    /**
      * Update user's status.
      *
      * @param tweet   the tweet to update user's status

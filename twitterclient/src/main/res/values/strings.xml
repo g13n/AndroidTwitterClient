@@ -5,10 +5,8 @@
 
     <!-- Activities -->
     <string name="activity_main">Twitter App Client</string>
-    
     <string name="activity_login">Log in to Twitter</string>
     <string name="login_label">Log in</string>
-
     <string name="activity_compose">Compose a new Tweet</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_compose">Tweet</string>
@@ -18,14 +16,20 @@
     <!-- Action bar icons -->
     <string name="action_login">Log in</string>
     <string name="action_logout">Log out</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_profile">Profile</string>
     <string name="action_compose">Compose</string>
 
-    <!-- Twitter timeline format -->
+    <!-- Various formats -->
     <string name="screen_name_format">\@%s</string>
-    <string name="action_refresh">Refresh</string>
+    <string name="followers_count_format">%d Followers</string>
+    <string name="following_count_format">%d Following</string>
 
     <!-- Tabs -->
     <string name="homeTab">Home</string>
     <string name="mentionsTab">Mentions</string>
+    <string name="title_activity_user_profile">\@</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
