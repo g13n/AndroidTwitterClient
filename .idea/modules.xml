@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidTwitterClient.iml" filepath="$PROJECT_DIR$/AndroidTwitterClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/TwitterAppClient.iml" filepath="$PROJECT_DIR$/TwitterAppClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/twitterclient/twitterclient.iml" filepath="$PROJECT_DIR$/twitterclient/twitterclient.iml" />
     </modules>
